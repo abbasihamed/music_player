@@ -10,10 +10,18 @@ class MusicApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Music',
-      home: HomeScreens(),
+      theme: ThemeData(
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Colors.transparent,
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.grey,
+        ),
+      ),
+      home: const HomeScreens(),
     );
   }
 }

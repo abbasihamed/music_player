@@ -13,6 +13,7 @@ class GlassesButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      overlayColor: MaterialStateProperty.all(Colors.transparent),
       onTap: onTap,
       child: GlassContainer(
         height: 60,
