@@ -5,6 +5,7 @@ import 'package:music_player/config/theme/app_colors.dart';
 import 'package:music_player/views/components/custom_chip.dart';
 import 'package:music_player/views/components/glasses_button.dart';
 import 'package:music_player/views/components/music_buttom_sheet.dart';
+import 'package:music_player/views/music_details.dart';
 
 class HomeScreens extends HookWidget {
   const HomeScreens({super.key});
@@ -121,9 +122,20 @@ class HomeScreens extends HookWidget {
         ],
       ),
       bottomSheet: isPlay.value
-          ? MusicButtomSheet(
-              isPlay: isPlay.value,
-              closeBtn: () => isPlay.value = false,
+          ? InkWell(
+              overlayColor: MaterialStateProperty.all(Colors.transparent),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MusicDetail(),
+                  ),
+                );
+              },
+              child: MusicButtomSheet(
+                isPlay: isPlay.value,
+                closeBtn: () => isPlay.value = false,
+              ),
             )
           : null,
       floatingActionButton: !isPlay.value

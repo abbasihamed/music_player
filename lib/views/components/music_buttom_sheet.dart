@@ -14,98 +14,94 @@ class MusicButtomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      overlayColor: MaterialStateProperty.all(Colors.transparent),
-      onTap: () {},
-      child: AnimatedContainer(
-        duration: const Duration(seconds: 2),
-        height: isPlay ? 60 : 0,
-        child: GlassContainer(
-          width: double.infinity,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: const EdgeInsets.only(left: 16, right: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          'assets/images/song-place.png',
-                          width: 30,
-                        ),
+    return AnimatedContainer(
+      duration: const Duration(seconds: 2),
+      height: isPlay ? 60 : 0,
+      child: GlassContainer(
+        width: double.infinity,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    margin: const EdgeInsets.only(left: 16, right: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Image.asset(
+                        'assets/images/song-place.png',
+                        width: 30,
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        Text(
-                          'Song Title',
-                          style: TextStyle(
-                            fontFamily: 'Gilroy',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 16,
-                          ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Text(
+                        'Song Title',
+                        style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16,
                         ),
-                        Text(
-                          'Artist Name',
-                          style: TextStyle(
-                            fontFamily: 'Gilroy',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12,
-                          ),
+                      ),
+                      Text(
+                        'Artist Name',
+                        style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
                         ),
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MusicButton(
-                      icons: FeatherIcons.skipBack,
-                      size: 22,
-                      onPressed: () {},
-                    ),
-                    MusicButton(
-                      icons: Icons.play_arrow_rounded,
-                      onPressed: () {},
-                      colors: Colors.white,
-                    ),
-                    MusicButton(
-                      icons: FeatherIcons.skipForward,
-                      size: 22,
-                      onPressed: () {},
-                    ),
-                    MusicButton(
-                      icons: Icons.close,
-                      size: 20,
-                      onPressed: closeBtn,
-                    ),
-                  ],
-                ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MusicButton(
+                    icons: FeatherIcons.skipBack,
+                    size: 22,
+                    onPressed: () {},
+                  ),
+                  MusicButton(
+                    icons: Icons.play_arrow_rounded,
+                    onPressed: () {},
+                    colors: Colors.white,
+                  ),
+                  MusicButton(
+                    icons: FeatherIcons.skipForward,
+                    size: 22,
+                    onPressed: () {},
+                  ),
+                  MusicButton(
+                    icons: Icons.close,
+                    size: 20,
+                    onPressed: closeBtn,
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
