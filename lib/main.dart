@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/config/get_context.dart';
 import 'package:music_player/config/theme/app_colors.dart';
 import 'package:music_player/provider/local_songs_controller.dart';
 import 'package:music_player/provider/play_song_controller.dart';
@@ -6,6 +7,7 @@ import 'package:music_player/views/home.dart';
 import 'package:provider/provider.dart';
 
 void main(List<String> args) {
+  // setup();
   runApp(const MusicApp());
 }
 
@@ -34,6 +36,7 @@ class MusicApp extends StatelessWidget {
             color: Colors.grey,
           ),
         ),
+        navigatorKey: ctx,
         home: const HomeScreens(),
       ),
     );

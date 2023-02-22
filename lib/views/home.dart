@@ -19,7 +19,6 @@ class HomeScreens extends HookWidget {
     final isSelcted = useState({'songs': true, 'playlist': false});
     final pageController = usePageController(initialPage: 0);
     final isPlay = useState(false);
-    // Provider.of<LocalSongs>(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -75,55 +74,50 @@ class HomeScreens extends HookWidget {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: InkWell(
+                        child: ListTile(
                           onTap: () {
-                            isPlay.value = true;
+                            play.playSong(index);
                           },
-                          child: ListTile(
-                            onTap: () {
-                              play.play(songs.allSongs[index].uri!);
-                            },
-                            leading: QueryArtworkWidget(
-                              id: songs.allSongs[index].id,
-                              type: ArtworkType.AUDIO,
-                              artworkBorder: BorderRadius.circular(8),
-                              artworkHeight: double.infinity,
-                              artworkWidth: 60,
-                              nullArtworkWidget: SizedBox(
-                                height: double.infinity,
-                                width: 60,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Image.asset(
-                                      'assets/images/song-place.png',
-                                      width: 30,
-                                    ),
+                          leading: QueryArtworkWidget(
+                            id: songs.allSongs[index].id,
+                            type: ArtworkType.AUDIO,
+                            artworkBorder: BorderRadius.circular(8),
+                            artworkHeight: double.infinity,
+                            artworkWidth: 60,
+                            nullArtworkWidget: SizedBox(
+                              height: double.infinity,
+                              width: 60,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                    'assets/images/song-place.png',
+                                    width: 30,
                                   ),
                                 ),
                               ),
                             ),
-                            title: Text(
-                              songs.allSongs[index].title,
-                              style: const TextStyle(
-                                fontFamily: 'Gilroy',
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 18,
-                              ),
+                          ),
+                          title: Text(
+                            songs.allSongs[index].title,
+                            style: const TextStyle(
+                              fontFamily: 'Gilroy',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 18,
                             ),
-                            subtitle: Text(
-                              songs.allSongs[index].artist ?? 'Unknown',
-                              style: const TextStyle(
-                                fontFamily: 'Gilroy',
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                              ),
+                          ),
+                          subtitle: Text(
+                            songs.allSongs[index].artist ?? 'Unknown',
+                            style: const TextStyle(
+                              fontFamily: 'Gilroy',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
                             ),
                           ),
                         ),
@@ -139,8 +133,10 @@ class HomeScreens extends HookWidget {
           )
         ],
       ),
-      bottomSheet: isPlay.value
-          ? InkWell(
+      bottomSheet: Consumer<PlaySongController>(
+        builder: (context, play, child) {
+          if (play.isPlay) {
+            return InkWell(
               overlayColor: MaterialStateProperty.all(Colors.transparent),
               onTap: () {
                 Navigator.push(
@@ -150,23 +146,29 @@ class HomeScreens extends HookWidget {
                   ),
                 );
               },
-              child: MusicButtomSheet(
-                isPlay: isPlay.value,
-                closeBtn: () => isPlay.value = false,
-              ),
-            )
-          : null,
-      floatingActionButton: !isPlay.value
+              child: const MusicButtomSheet(),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
+      floatingActionButton: !context.watch<PlaySongController>().isPlay
           ? Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GlassesButton(
-                  onTap: () {},
+                  onTap: () {
+                    context.read<PlaySongController>().playSong(0);
+                  },
                   icons: FeatherIcons.play,
                 ),
                 const SizedBox(height: 10),
                 GlassesButton(
-                  onTap: () {},
+                  onTap: () {
+                    context
+                        .read<PlaySongController>()
+                        .playSong(0, isShuffle: true);
+                  },
                   icons: FeatherIcons.shuffle,
                 ),
               ],
