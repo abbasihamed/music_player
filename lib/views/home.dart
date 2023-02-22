@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:music_player/config/theme/app_colors.dart';
+import 'package:music_player/provider/local_songs_controller.dart';
+import 'package:music_player/provider/play_song_controller.dart';
 import 'package:music_player/views/components/custom_chip.dart';
 import 'package:music_player/views/components/glasses_button.dart';
 import 'package:music_player/views/components/music_buttom_sheet.dart';
 import 'package:music_player/views/music_details.dart';
+import 'package:on_audio_query/on_audio_query.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreens extends HookWidget {
   const HomeScreens({super.key});
@@ -15,6 +19,7 @@ class HomeScreens extends HookWidget {
     final isSelcted = useState({'songs': true, 'playlist': false});
     final pageController = usePageController(initialPage: 0);
     final isPlay = useState(false);
+    // Provider.of<LocalSongs>(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -63,56 +68,69 @@ class HomeScreens extends HookWidget {
                 }
               },
               children: [
-                ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: InkWell(
-                        onTap: () {
-                          isPlay.value = true;
-                        },
-                        child: ListTile(
-                          leading: SizedBox(
-                            height: double.infinity,
-                            width: 60,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  'assets/images/song-place.png',
-                                  width: 30,
+                Consumer2<LocalSongs, PlaySongController>(
+                    builder: (context, songs, play, child) {
+                  return ListView.builder(
+                    itemCount: songs.allSongs.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: InkWell(
+                          onTap: () {
+                            isPlay.value = true;
+                          },
+                          child: ListTile(
+                            onTap: () {
+                              play.play(songs.allSongs[index].uri!);
+                            },
+                            leading: QueryArtworkWidget(
+                              id: songs.allSongs[index].id,
+                              type: ArtworkType.AUDIO,
+                              artworkBorder: BorderRadius.circular(8),
+                              artworkHeight: double.infinity,
+                              artworkWidth: 60,
+                              nullArtworkWidget: SizedBox(
+                                height: double.infinity,
+                                width: 60,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      'assets/images/song-place.png',
+                                      width: 30,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          title: const Text(
-                            'Song Title',
-                            style: TextStyle(
-                              fontFamily: 'Gilroy',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 18,
+                            title: Text(
+                              songs.allSongs[index].title,
+                              style: const TextStyle(
+                                fontFamily: 'Gilroy',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 18,
+                              ),
                             ),
-                          ),
-                          subtitle: const Text(
-                            'Artist Name',
-                            style: TextStyle(
-                              fontFamily: 'Gilroy',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
+                            subtitle: Text(
+                              songs.allSongs[index].artist ?? 'Unknown',
+                              style: const TextStyle(
+                                fontFamily: 'Gilroy',
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  );
+                }),
                 Column(
                   children: const [Text('Play list')],
                 ),

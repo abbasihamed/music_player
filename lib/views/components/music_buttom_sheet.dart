@@ -15,7 +15,7 @@ class MusicButtomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 3),
       height: isPlay ? 60 : 0,
       child: GlassContainer(
         width: double.infinity,
