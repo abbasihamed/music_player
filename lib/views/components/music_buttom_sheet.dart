@@ -114,7 +114,12 @@ class MusicButtomSheet extends StatelessWidget {
                       ),
                       CustomIconAnim(
                         onPressed: () {
-                          play.pauseSong();
+                          if (play.isPause) {
+                            play.playSong(play.audioPlayer.currentIndex!,
+                                duration: play.audioPlayer.position);
+                          } else {
+                            play.pauseSong();
+                          }
                         },
                         icons: AnimatedIcons.pause_play,
                         colors: Colors.white,

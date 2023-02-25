@@ -18,7 +18,6 @@ class HomeScreens extends HookWidget {
   Widget build(BuildContext context) {
     final isSelcted = useState({'songs': true, 'playlist': false});
     final pageController = usePageController(initialPage: 0);
-    final isPlay = useState(false);
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -135,7 +134,7 @@ class HomeScreens extends HookWidget {
       ),
       bottomSheet: Consumer<PlaySongController>(
         builder: (context, play, child) {
-          if (play.isPlay) {
+          if (play.isPlay || play.isPause) {
             return InkWell(
               overlayColor: MaterialStateProperty.all(Colors.transparent),
               onTap: () {

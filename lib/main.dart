@@ -7,7 +7,8 @@ import 'package:music_player/views/home.dart';
 import 'package:provider/provider.dart';
 
 void main(List<String> args) {
-  // setup();
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MusicApp());
 }
 

@@ -9,12 +9,16 @@ class PlaySongController extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   bool _isPlay = false;
+  bool _isPause = false;
 
   List<SongModel> _allSong = [];
 
   late SongModel _currentDetail;
 
+  late Duration lastDuration;
+
   bool get isPlay => _isPlay;
+  bool get isPause => _isPause;
   SongModel get currentDetail => _currentDetail;
   AudioPlayer get audioPlayer => _audioPlayer;
 
@@ -23,12 +27,18 @@ class PlaySongController extends ChangeNotifier {
     notifyListeners();
   }
 
+  setIsPause(bool value) {
+    _isPause = value;
+    notifyListeners();
+  }
+
   setCurrentSongDetail(int index) {
     _currentDetail = _allSong[index];
     notifyListeners();
   }
 
-  playSong(int index, {bool isShuffle = false}) {
+  playSong(int index,
+      {Duration duration = Duration.zero, bool isShuffle = false}) {
     _allSong =
         Provider.of<LocalSongs>(ctx.currentContext!, listen: false).allSongs;
     _audioPlayer.setAudioSource(
@@ -38,11 +48,13 @@ class PlaySongController extends ChangeNotifier {
         shuffleOrder: isShuffle ? DefaultShuffleOrder() : null,
       ),
       initialIndex: index,
+      initialPosition: duration,
       preload: true,
     );
     _audioPlayer.play();
     setCurrentSongDetail(_audioPlayer.currentIndex!);
     setIsPlay(_audioPlayer.playing);
+    setIsPause(false);
     playerStream();
   }
 
@@ -55,10 +67,13 @@ class PlaySongController extends ChangeNotifier {
   stopSong() {
     _audioPlayer.stop();
     setIsPlay(_audioPlayer.playing);
+    setIsPause(false);
   }
 
   pauseSong() {
     _audioPlayer.pause();
+    setIsPause(true);
+    lastDuration = _audioPlayer.duration!;
   }
 
   nextSong() {

@@ -93,11 +93,11 @@ class MusicDetail extends StatelessWidget {
                     builder: (context, snapshot) {
                       return ProgressBar(
                         progress: play.audioPlayer.position,
-                        total: play.audioPlayer.duration ?? Duration.zero,
+                        total: play.audioPlayer.duration ?? play.lastDuration,
                         onSeek: play.audioPlayer.seek,
                         timeLabelLocation: TimeLabelLocation.below,
                         barCapShape: BarCapShape.round,
-                        baseBarColor: const Color(0xFF8070FF),
+                        baseBarColor: AppColors.background,
                         progressBarColor: const Color(0xFF8070FF),
                         thumbColor: const Color(0xFF8070FF),
                         timeLabelTextStyle: const TextStyle(
@@ -133,7 +133,12 @@ class MusicDetail extends StatelessWidget {
                         child: CustomIconAnim(
                           icons: AnimatedIcons.pause_play,
                           onPressed: () {
-                            play.pauseSong();
+                            if (play.isPause) {
+                              play.playSong(play.audioPlayer.currentIndex!,
+                                  duration: play.audioPlayer.position);
+                            } else {
+                              play.pauseSong();
+                            }
                           },
                           colors: Colors.white,
                         ),
