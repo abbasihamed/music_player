@@ -16,6 +16,7 @@ class PlaySongController extends ChangeNotifier {
 
   bool get isPlay => _isPlay;
   SongModel get currentDetail => _currentDetail;
+  AudioPlayer get audioPlayer => _audioPlayer;
 
   setIsPlay(bool value) {
     _isPlay = value;
@@ -46,14 +47,8 @@ class PlaySongController extends ChangeNotifier {
   }
 
   playerStream() {
-    _audioPlayer.playerStateStream.listen((event) {
-    });
     _audioPlayer.durationStream.listen((event) {
       setCurrentSongDetail(_audioPlayer.currentIndex!);
-    });
-    _audioPlayer.positionStream.listen((event) {
-    });
-    _audioPlayer.processingStateStream.listen((event) {
     });
   }
 

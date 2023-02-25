@@ -1,7 +1,9 @@
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:music_player/config/theme/app_colors.dart';
 import 'package:music_player/provider/play_song_controller.dart';
+import 'package:music_player/views/components/anim_icon.dart';
 import 'package:music_player/views/components/music_button.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
@@ -86,39 +88,28 @@ class MusicDetail extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: const LinearProgressIndicator(
-                    value: .5,
-                    backgroundColor: AppColors.background,
-                    color: Color(0xFF8070FF),
-                    minHeight: 10,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(
-                      '02:13',
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
-                    Text(
-                      '04:01',
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
+                StreamBuilder<Duration>(
+                    stream: play.audioPlayer.positionStream,
+                    builder: (context, snapshot) {
+                      return ProgressBar(
+                        progress: play.audioPlayer.position,
+                        total: play.audioPlayer.duration ?? Duration.zero,
+                        onSeek: play.audioPlayer.seek,
+                        timeLabelLocation: TimeLabelLocation.below,
+                        barCapShape: BarCapShape.round,
+                        baseBarColor: const Color(0xFF8070FF),
+                        progressBarColor: const Color(0xFF8070FF),
+                        thumbColor: const Color(0xFF8070FF),
+                        timeLabelTextStyle: const TextStyle(
+                          fontFamily: 'Gilroy',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                        ),
+                        timeLabelPadding: 8,
+                        timeLabelType: TimeLabelType.totalTime,
+                      );
+                    }),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -127,7 +118,9 @@ class MusicDetail extends StatelessWidget {
                     MusicButton(
                       icons: FeatherIcons.skipBack,
                       size: 28,
-                      onPressed: () {},
+                      onPressed: () {
+                        play.previousSong();
+                      },
                     ),
                     Container(
                       height: 70,
@@ -137,10 +130,11 @@ class MusicDetail extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Center(
-                        child: MusicButton(
-                          icons: Icons.play_arrow_rounded,
-                          onPressed: () {},
-                          size: 32,
+                        child: CustomIconAnim(
+                          icons: AnimatedIcons.pause_play,
+                          onPressed: () {
+                            play.pauseSong();
+                          },
                           colors: Colors.white,
                         ),
                       ),
@@ -148,7 +142,9 @@ class MusicDetail extends StatelessWidget {
                     MusicButton(
                       icons: FeatherIcons.skipForward,
                       size: 28,
-                      onPressed: () {},
+                      onPressed: () {
+                        play.nextSong();
+                      },
                     ),
                   ],
                 ),
