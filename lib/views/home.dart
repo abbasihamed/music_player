@@ -3,6 +3,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:music_player/config/theme/app_colors.dart';
 import 'package:music_player/provider/local_songs_controller.dart';
+import 'package:music_player/provider/play_list_controller.dart';
 import 'package:music_player/provider/play_song_controller.dart';
 import 'package:music_player/views/components/custom_chip.dart';
 import 'package:music_player/views/components/glasses_button.dart';
@@ -16,6 +17,7 @@ class HomeScreens extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Provider.of<PlayListController>(context);
     final isSelcted = useState({'songs': true, 'playlist': false});
     final pageController = usePageController(initialPage: 0);
     return Scaffold(
@@ -119,6 +121,18 @@ class HomeScreens extends HookWidget {
                               fontSize: 14,
                             ),
                           ),
+                          trailing: IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AddPlaylistDialog(),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.more_horiz,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -173,6 +187,100 @@ class HomeScreens extends HookWidget {
               ],
             )
           : null,
+    );
+  }
+}
+
+class AddPlaylistDialog extends StatelessWidget {
+  const AddPlaylistDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      backgroundColor: Colors.black87.withOpacity(.3),
+      child: Container(
+        constraints: const BoxConstraints(
+          maxHeight: 400,
+          minHeight: 200,
+          maxWidth: double.infinity,
+          minWidth: double.infinity,
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'PlayList',
+                    style: TextStyle(
+                      fontFamily: 'Gilroy',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 18,
+                    ),
+                  ),
+                  CustomChip(
+                    isSelected: true,
+                    lable: 'Add New',
+                    onTap: () {},
+                    textStyle: const TextStyle(
+                      fontFamily: 'Gilroy',
+                      color: Colors.black,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: const Text(
+                      'text',
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: const Text(
+                      '1',
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                    trailing: SizedBox(
+                      height: 20,
+                      child: CustomChip(
+                        isSelected: false,
+                        lable: 'Add New',
+                        onTap: () {},
+                        textStyle: const TextStyle(
+                          fontFamily: 'Gilroy',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

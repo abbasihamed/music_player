@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music_player/config/get_context.dart';
 import 'package:music_player/config/theme/app_colors.dart';
 import 'package:music_player/provider/local_songs_controller.dart';
+import 'package:music_player/provider/play_list_controller.dart';
 import 'package:music_player/provider/play_song_controller.dart';
 import 'package:music_player/views/home.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class MusicApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => LocalSongs()),
         ChangeNotifierProvider(create: (context) => PlaySongController()),
+        // ChangeNotifierProvider(create: (context) => PlayListController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

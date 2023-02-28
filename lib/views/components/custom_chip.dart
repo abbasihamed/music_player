@@ -5,11 +5,13 @@ class CustomChip extends HookWidget {
   final String lable;
   final VoidCallback onTap;
   final bool? isSelected;
+  final TextStyle? textStyle;
   const CustomChip({
     super.key,
     required this.lable,
     required this.onTap,
     this.isSelected = false,
+    this.textStyle,
   });
 
   @override
@@ -26,7 +28,16 @@ class CustomChip extends HookWidget {
           color: isSelected! ? Colors.white : Colors.grey[800],
           borderRadius: BorderRadius.circular(50),
         ),
-        child: Text(lable),
+        child: Text(
+          lable,
+          style: textStyle ??
+              TextStyle(
+                fontFamily: 'Gilroy',
+                color: isSelected! ? Colors.black : Colors.white,
+                fontWeight: FontWeight.w900,
+                fontSize: 18,
+              ),
+        ),
       ),
     );
   }
