@@ -17,7 +17,7 @@ class HomeScreens extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Provider.of<PlayListController>(context);
+    Provider.of<PlayListController>(context);
     final isSelcted = useState({'songs': true, 'playlist': false});
     final pageController = usePageController(initialPage: 0);
     return Scaffold(
@@ -125,7 +125,7 @@ class HomeScreens extends HookWidget {
                             onPressed: () {
                               showDialog(
                                 context: context,
-                                builder: (context) => AddPlaylistDialog(),
+                                builder: (context) => const AddPlaylistDialog(),
                               );
                             },
                             icon: const Icon(
@@ -191,17 +191,18 @@ class HomeScreens extends HookWidget {
   }
 }
 
-class AddPlaylistDialog extends StatelessWidget {
+class AddPlaylistDialog extends HookWidget {
   const AddPlaylistDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isAdd = useState(false);
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       backgroundColor: Colors.black87.withOpacity(.3),
       child: Container(
         constraints: const BoxConstraints(
-          maxHeight: 400,
+          maxHeight: 300,
           minHeight: 200,
           maxWidth: double.infinity,
           minWidth: double.infinity,
@@ -225,7 +226,9 @@ class AddPlaylistDialog extends StatelessWidget {
                   CustomChip(
                     isSelected: true,
                     lable: 'Add New',
-                    onTap: () {},
+                    onTap: () {
+                      isAdd.value = !isAdd.value;
+                    },
                     textStyle: const TextStyle(
                       fontFamily: 'Gilroy',
                       color: Colors.black,
@@ -235,6 +238,53 @@ class AddPlaylistDialog extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: double.infinity,
+              height: isAdd.value ? 45 : 0,
+              child: isAdd.value
+                  ? Row(
+                      children: [
+                        const Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Playlist name',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Gilroy',
+                                color: Colors.white54,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 12,
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            InkWell(
+                                onTap: () {}, child: const Icon(Icons.check)),
+                            const SizedBox(width: 4),
+                            InkWell(
+                              onTap: () {
+                                isAdd.value = !isAdd.value;
+                              },
+                              child: const Icon(Icons.close),
+                            ),
+                          ],
+                        )
+                      ],
+                    )
+                  : null,
             ),
             Expanded(
               child: ListView.builder(

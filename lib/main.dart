@@ -22,7 +22,7 @@ class MusicApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => LocalSongs()),
         ChangeNotifierProvider(create: (context) => PlaySongController()),
-        // ChangeNotifierProvider(create: (context) => PlayListController()),
+        ChangeNotifierProvider(create: (context) => PlayListController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
