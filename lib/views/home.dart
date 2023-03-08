@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:music_player/config/theme/app_colors.dart';
+import 'package:music_player/data/hive_model/songs.dart';
 import 'package:music_player/provider/local_songs_controller.dart';
 import 'package:music_player/provider/play_list_controller.dart';
 import 'package:music_player/provider/play_song_controller.dart';
+import 'package:music_player/views/components/add_playlist_dialog.dart';
 import 'package:music_player/views/components/custom_chip.dart';
 import 'package:music_player/views/components/glasses_button.dart';
 import 'package:music_player/views/components/music_buttom_sheet.dart';
@@ -125,7 +127,16 @@ class HomeScreens extends HookWidget {
                             onPressed: () {
                               showDialog(
                                 context: context,
-                                builder: (context) => const AddPlaylistDialog(),
+                                builder: (context) => AddPlaylistDialog(
+                                  songs: Songs(
+                                    songId: songs.allSongs[index].id,
+                                    songName: songs.allSongs[index].title,
+                                    songArtists: songs.allSongs[index].artist ??
+                                        'Unknown',
+                                    songPath:
+                                        songs.allSongs[index].uri ?? 'Unknown',
+                                  ),
+                                ),
                               );
                             },
                             icon: const Icon(
@@ -187,150 +198,6 @@ class HomeScreens extends HookWidget {
               ],
             )
           : null,
-    );
-  }
-}
-
-class AddPlaylistDialog extends HookWidget {
-  const AddPlaylistDialog({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final isAdd = useState(false);
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      backgroundColor: Colors.black87.withOpacity(.3),
-      child: Container(
-        constraints: const BoxConstraints(
-          maxHeight: 300,
-          minHeight: 200,
-          maxWidth: double.infinity,
-          minWidth: double.infinity,
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'PlayList',
-                    style: TextStyle(
-                      fontFamily: 'Gilroy',
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 18,
-                    ),
-                  ),
-                  CustomChip(
-                    isSelected: true,
-                    lable: 'Add New',
-                    onTap: () {
-                      isAdd.value = !isAdd.value;
-                    },
-                    textStyle: const TextStyle(
-                      fontFamily: 'Gilroy',
-                      color: Colors.black,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              width: double.infinity,
-              height: isAdd.value ? 45 : 0,
-              child: isAdd.value
-                  ? Row(
-                      children: [
-                        const Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Playlist name',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Gilroy',
-                                color: Colors.white54,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 12,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            InkWell(
-                                onTap: () {}, child: const Icon(Icons.check)),
-                            const SizedBox(width: 4),
-                            InkWell(
-                              onTap: () {
-                                isAdd.value = !isAdd.value;
-                              },
-                              child: const Icon(Icons.close),
-                            ),
-                          ],
-                        )
-                      ],
-                    )
-                  : null,
-            ),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: const Text(
-                      'text',
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 18,
-                      ),
-                    ),
-                    subtitle: const Text(
-                      '1',
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),
-                    ),
-                    trailing: SizedBox(
-                      height: 20,
-                      child: CustomChip(
-                        isSelected: false,
-                        lable: 'Add New',
-                        onTap: () {},
-                        textStyle: const TextStyle(
-                          fontFamily: 'Gilroy',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

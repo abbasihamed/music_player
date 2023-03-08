@@ -1,35 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'play_list.dart';
+part of 'songs.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PlayListAdapter extends TypeAdapter<PlayList> {
+class SongsAdapter extends TypeAdapter<Songs> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  PlayList read(BinaryReader reader) {
+  Songs read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PlayList(
-      listName: fields[0] as String,
-      songList: (fields[1] as HiveList?)?.castHiveList(),
+    return Songs(
+      songId: fields[1] as int,
+      songName: fields[0] as String,
+      songArtists: fields[3] as String,
+      songPath: fields[2] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, PlayList obj) {
+  void write(BinaryWriter writer, Songs obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.listName)
+      ..write(obj.songName)
       ..writeByte(1)
-      ..write(obj.songList);
+      ..write(obj.songId)
+      ..writeByte(2)
+      ..write(obj.songPath)
+      ..writeByte(3)
+      ..write(obj.songArtists);
   }
 
   @override
@@ -38,7 +44,7 @@ class PlayListAdapter extends TypeAdapter<PlayList> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PlayListAdapter &&
+      other is SongsAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

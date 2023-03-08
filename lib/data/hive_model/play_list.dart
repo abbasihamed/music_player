@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:music_player/data/hive_model/songs.dart';
 
 part 'play_list.g.dart';
 
@@ -7,5 +8,8 @@ class PlayList extends HiveObject {
   @HiveField(0)
   String listName;
 
-  PlayList({required this.listName});
+  @HiveField(1)
+  HiveList<Songs>? songList;
+
+  PlayList({required this.listName, this.songList});
 }
