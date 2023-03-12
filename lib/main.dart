@@ -27,18 +27,7 @@ class MusicApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Music',
-        theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            backgroundColor: AppColors.background,
-            elevation: 0,
-          ),
-          bottomSheetTheme: const BottomSheetThemeData(
-            backgroundColor: Colors.transparent,
-          ),
-          iconTheme: const IconThemeData(
-            color: Colors.grey,
-          ),
-        ),
+        theme: AppTheme.theme,
         navigatorKey: ctx,
         home: const HomeScreens(),
       ),

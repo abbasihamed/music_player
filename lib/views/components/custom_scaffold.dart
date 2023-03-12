@@ -21,10 +21,7 @@ class CustomScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
-        centerTitle: true,
         title: ShaderMask(
           blendMode: BlendMode.srcIn,
           shaderCallback: (Rect bounds) => const LinearGradient(
@@ -34,7 +31,6 @@ class CustomScaffold extends StatelessWidget {
           ),
           child: Text(appBarTitle),
         ),
-        elevation: 0,
       ),
       body: body,
       bottomSheet: Consumer<PlaySongController>(

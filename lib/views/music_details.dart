@@ -16,7 +16,6 @@ class MusicDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final sz = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -111,7 +110,7 @@ class MusicDetail extends StatelessWidget {
                         onSeek: play.audioPlayer.seek,
                         timeLabelLocation: TimeLabelLocation.below,
                         barCapShape: BarCapShape.round,
-                        baseBarColor: AppColors.background,
+                        baseBarColor: const Color(0xFF1F222B),
                         progressBarColor: const Color(0xFF8070FF),
                         thumbColor: const Color(0xFF8070FF),
                         timeLabelTextStyle: const TextStyle(
@@ -140,7 +139,7 @@ class MusicDetail extends StatelessWidget {
                       height: 70,
                       width: 70,
                       decoration: BoxDecoration(
-                        color: AppColors.background,
+                        color: const Color(0xFF1F222B),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Center(
