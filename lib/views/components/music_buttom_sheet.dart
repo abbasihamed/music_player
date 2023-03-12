@@ -28,10 +28,12 @@ class MusicButtomSheet extends StatelessWidget {
               topLeft: Radius.circular(16),
               topRight: Radius.circular(16),
             ),
-            child: Row(
+            child: Stack(
               children: [
-                Expanded(
-                  flex: 1,
+                Positioned(
+                  left: 0,
+                  bottom: 0,
+                  top: 0,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -101,8 +103,10 @@ class MusicButtomSheet extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(
-                  flex: 1,
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,

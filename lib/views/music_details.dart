@@ -14,7 +14,7 @@ class MusicDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sz = MediaQuery.of(context).size;
+    final sz = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -29,43 +29,45 @@ class MusicDetail extends StatelessWidget {
       ),
       body: Consumer<PlaySongController>(
         builder: (context, play, child) {
-          return Column(
-            children: [
-              Center(
-                child: QueryArtworkWidget(
-                  id: play.currentDetail.id,
-                  type: ArtworkType.AUDIO,
-                  artworkBorder: BorderRadius.circular(18),
-                  artworkHeight: 250,
-                  artworkWidth: 300,
-                  artworkQuality: FilterQuality.high,
-                  format: ArtworkFormat.PNG,
-                  quality: 100,
-                  nullArtworkWidget: SizedBox(
-                    height: 250,
-                    width: 300,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          'assets/images/song-place.png',
-                          width: 30,
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Center(
+                  child: QueryArtworkWidget(
+                    id: play.currentDetail.id,
+                    type: ArtworkType.AUDIO,
+                    artworkBorder: BorderRadius.circular(18),
+                    artworkHeight: 250,
+                    artworkWidth: 300,
+                    artworkQuality: FilterQuality.high,
+                    format: ArtworkFormat.PNG,
+                    quality: 100,
+                    nullArtworkWidget: SizedBox(
+                      height: 250,
+                      width: 300,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            'assets/images/song-place.png',
+                            width: 30,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
       bottomSheet: Container(
-        height: sz.height * 0.4,
+        height: sz.size.height * 0.4,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
@@ -77,101 +79,115 @@ class MusicDetail extends StatelessWidget {
         ),
         child: Consumer<PlaySongController>(
           builder: (context, play, child) {
-            return Column(
-              children: [
-                ListTile(
-                  title: Text(
-                    play.currentDetail.title,
-                    style: const TextStyle(
-                      fontFamily: 'Gilroy',
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 24,
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  ListTile(
+                    trailing: SizedBox(
+                      width: sz.size.width * 0.5,
+                      child: sz.orientation == Orientation.landscape
+                          ? _controllerBtn(play)
+                          : null,
                     ),
-                  ),
-                  subtitle: Text(
-                    play.currentDetail.artist ?? 'Unknown',
-                    style: const TextStyle(
-                      fontFamily: 'Gilroy',
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      height: 2,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                StreamBuilder<Duration>(
-                    stream: play.audioPlayer.positionStream,
-                    builder: (context, snapshot) {
-                      return ProgressBar(
-                        progress: play.audioPlayer.position,
-                        total: play.audioPlayer.duration ?? play.lastDuration,
-                        onSeek: play.audioPlayer.seek,
-                        timeLabelLocation: TimeLabelLocation.below,
-                        barCapShape: BarCapShape.round,
-                        baseBarColor: const Color(0xFF1F222B),
-                        progressBarColor: const Color(0xFF8070FF),
-                        thumbColor: const Color(0xFF8070FF),
-                        timeLabelTextStyle: const TextStyle(
-                          fontFamily: 'Gilroy',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                        ),
-                        timeLabelPadding: 8,
-                        timeLabelType: TimeLabelType.totalTime,
-                      );
-                    }),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MusicButton(
-                      icons: FeatherIcons.skipBack,
-                      size: 28,
-                      onPressed: () {
-                        play.previousSong();
-                      },
-                    ),
-                    Container(
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1F222B),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Center(
-                        child: CustomIconAnim(
-                          icons: AnimatedIcons.pause_play,
-                          onPressed: () {
-                            if (play.isPause) {
-                              play.playSong(
-                                  songs, play.audioPlayer.currentIndex!,
-                                  duration: play.audioPlayer.position);
-                            } else {
-                              play.pauseSong();
-                            }
-                          },
-                          colors: Colors.white,
-                        ),
+                    title: Text(
+                      play.currentDetail.title,
+                      style: const TextStyle(
+                        fontFamily: 'Gilroy',
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 24,
                       ),
                     ),
-                    MusicButton(
-                      icons: FeatherIcons.skipForward,
-                      size: 28,
-                      onPressed: () {
-                        play.nextSong();
-                      },
+                    subtitle: Text(
+                      play.currentDetail.artist ?? 'Unknown',
+                      style: const TextStyle(
+                        fontFamily: 'Gilroy',
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        height: 2,
+                      ),
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  const SizedBox(height: 24),
+                  StreamBuilder<Duration>(
+                      stream: play.audioPlayer.positionStream,
+                      builder: (context, snapshot) {
+                        return ProgressBar(
+                          progress: play.audioPlayer.position,
+                          total: play.audioPlayer.duration ?? play.lastDuration,
+                          onSeek: play.audioPlayer.seek,
+                          timeLabelLocation: TimeLabelLocation.below,
+                          barCapShape: BarCapShape.round,
+                          baseBarColor: const Color(0xFF1F222B),
+                          progressBarColor: const Color(0xFF8070FF),
+                          thumbColor: const Color(0xFF8070FF),
+                          timeLabelTextStyle: const TextStyle(
+                            fontFamily: 'Gilroy',
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                          ),
+                          timeLabelPadding: 8,
+                          timeLabelType: TimeLabelType.totalTime,
+                        );
+                      }),
+                  const SizedBox(height: 24),
+                  if (sz.orientation == Orientation.portrait)
+                    _controllerBtn(play),
+                ],
+              ),
             );
           },
         ),
       ),
+    );
+  }
+
+  Row _controllerBtn(PlaySongController play) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        MusicButton(
+          icons: FeatherIcons.skipBack,
+          size: 28,
+          colors: Colors.grey,
+          onPressed: () {
+            play.previousSong();
+          },
+        ),
+        Container(
+          height: 70,
+          width: 70,
+          decoration: BoxDecoration(
+            color: const Color(0xFF1F222B),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Center(
+            child: CustomIconAnim(
+              icons: AnimatedIcons.pause_play,
+              onPressed: () {
+                if (play.isPause) {
+                  play.playSong(songs, play.audioPlayer.currentIndex!,
+                      duration: play.audioPlayer.position);
+                } else {
+                  play.pauseSong();
+                }
+              },
+              colors: Colors.white,
+            ),
+          ),
+        ),
+        MusicButton(
+          icons: FeatherIcons.skipForward,
+          size: 28,
+          colors: Colors.grey,
+          onPressed: () {
+            play.nextSong();
+          },
+        ),
+      ],
     );
   }
 }

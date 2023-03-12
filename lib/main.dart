@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/config/get_context.dart';
 import 'package:music_player/config/theme/app_colors.dart';
@@ -10,7 +11,11 @@ import 'package:provider/provider.dart';
 void main(List<String> args) {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MusicApp());
+  runApp(DevicePreview(
+      enabled: false,
+      builder: (context) {
+        return const MusicApp();
+      }));
 }
 
 class MusicApp extends StatelessWidget {
@@ -25,6 +30,9 @@ class MusicApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PlayListController()),
       ],
       child: MaterialApp(
+        useInheritedMediaQuery: true,
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
         debugShowCheckedModeBanner: false,
         title: 'Music',
         theme: AppTheme.theme,
