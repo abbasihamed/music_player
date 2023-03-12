@@ -3,13 +3,20 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 class LocalSongs extends ChangeNotifier {
   final OnAudioQuery _audioQuery = OnAudioQuery();
+  bool _isLoading = false;
 
   List<SongModel> _allSong = [];
 
   List<SongModel> get allSongs => _allSong;
+  bool get isLoading => _isLoading;
 
   LocalSongs() {
     getAllSongs();
+  }
+
+  setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
   }
 
   Future<bool> reguestPermissions() async {
@@ -24,13 +31,12 @@ class LocalSongs extends ChangeNotifier {
     bool permission = await reguestPermissions();
     if (permission) {
       _allSong = await filteredSongs();
-    } else {
-      print('Does not have permission');
-    }
+    } else {}
     notifyListeners();
   }
 
   Future<List<SongModel>> filteredSongs() async {
+    setLoading(true);
     List<SongModel> temp = [];
     final songs = await _audioQuery.querySongs(
       sortType: SongSortType.DATE_ADDED,
@@ -43,6 +49,7 @@ class LocalSongs extends ChangeNotifier {
         temp.add(element);
       }
     }
+    setLoading(false);
     return temp;
   }
 }

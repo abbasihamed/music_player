@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/config/app_loading.dart';
 import 'package:music_player/data/hive_model/songs.dart';
 import 'package:music_player/provider/local_songs_controller.dart';
 import 'package:music_player/provider/play_song_controller.dart';
@@ -7,14 +8,15 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
 class SongsScreen extends StatelessWidget {
-  const SongsScreen({
-    Key? key,
-  }) : super(key: key);
+  const SongsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Consumer2<LocalSongs, PlaySongController>(
         builder: (context, songs, play, child) {
+      if (songs.isLoading) {
+        return const AppLoading();
+      }
       return ListView.builder(
         itemCount: songs.allSongs.length,
         itemBuilder: (context, index) {

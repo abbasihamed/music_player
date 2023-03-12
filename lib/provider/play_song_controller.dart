@@ -18,6 +18,25 @@ class PlaySongController extends ChangeNotifier {
   dynamic get currentDetail => _currentDetail;
   AudioPlayer get audioPlayer => _audioPlayer;
 
+  playSong(List songs, int index,
+      {Duration duration = Duration.zero, bool isShuffle = false}) {
+    setAllSong(songs);
+    _audioPlayer.setAudioSource(
+      ConcatenatingAudioSource(
+        children: songs.map((e) => AudioSource.uri(Uri.parse(e.uri!))).toList(),
+        shuffleOrder: isShuffle ? DefaultShuffleOrder() : null,
+      ),
+      initialIndex: index,
+      initialPosition: duration,
+      preload: true,
+    );
+    _audioPlayer.play();
+    setCurrentSongDetail(_audioPlayer.currentIndex!);
+    setIsPlay(_audioPlayer.playing);
+    setIsPause(false);
+    playerStream();
+  }
+
   setIsPlay(bool value) {
     _isPlay = value;
     notifyListeners();
@@ -33,23 +52,9 @@ class PlaySongController extends ChangeNotifier {
     notifyListeners();
   }
 
-  playSong(List songs, int index,
-      {Duration duration = Duration.zero, bool isShuffle = false}) {
-    _allSong = songs;
-    _audioPlayer.setAudioSource(
-      ConcatenatingAudioSource(
-        children: songs.map((e) => AudioSource.uri(Uri.parse(e.uri!))).toList(),
-        shuffleOrder: isShuffle ? DefaultShuffleOrder() : null,
-      ),
-      initialIndex: index,
-      initialPosition: duration,
-      preload: true,
-    );
-    _audioPlayer.play();
-    setCurrentSongDetail(_audioPlayer.currentIndex!);
-    setIsPlay(_audioPlayer.playing);
-    setIsPause(false);
-    playerStream();
+  setAllSong(var value) {
+    _allSong = value;
+    notifyListeners();
   }
 
   playerStream() {
