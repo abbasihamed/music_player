@@ -17,7 +17,17 @@ class MusicDetail extends StatelessWidget {
     final sz = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.grey,
+          ),
+        ),
+      ),
       body: Consumer<PlaySongController>(
         builder: (context, play, child) {
           return Column(
