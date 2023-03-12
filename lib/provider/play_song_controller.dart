@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:music_player/config/get_context.dart';
-import 'package:music_player/provider/local_songs_controller.dart';
-import 'package:on_audio_query/on_audio_query.dart';
-import 'package:provider/provider.dart';
 
 class PlaySongController extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
@@ -11,15 +7,15 @@ class PlaySongController extends ChangeNotifier {
   bool _isPlay = false;
   bool _isPause = false;
 
-  List<SongModel> _allSong = [];
+  List _allSong = [];
 
-  late SongModel _currentDetail;
+  late var _currentDetail;
 
   late Duration lastDuration;
 
   bool get isPlay => _isPlay;
   bool get isPause => _isPause;
-  SongModel get currentDetail => _currentDetail;
+  dynamic get currentDetail => _currentDetail;
   AudioPlayer get audioPlayer => _audioPlayer;
 
   setIsPlay(bool value) {
@@ -37,14 +33,12 @@ class PlaySongController extends ChangeNotifier {
     notifyListeners();
   }
 
-  playSong(int index,
+  playSong(List songs, int index,
       {Duration duration = Duration.zero, bool isShuffle = false}) {
-    _allSong =
-        Provider.of<LocalSongs>(ctx.currentContext!, listen: false).allSongs;
+    _allSong = songs;
     _audioPlayer.setAudioSource(
       ConcatenatingAudioSource(
-        children:
-            _allSong.map((e) => AudioSource.uri(Uri.parse(e.uri!))).toList(),
+        children: songs.map((e) => AudioSource.uri(Uri.parse(e.uri!))).toList(),
         shuffleOrder: isShuffle ? DefaultShuffleOrder() : null,
       ),
       initialIndex: index,

@@ -17,10 +17,10 @@ class SongsAdapter extends TypeAdapter<Songs> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Songs(
-      songId: fields[1] as int,
-      songName: fields[0] as String,
-      songArtists: fields[3] as String,
-      songPath: fields[2] as String,
+      id: fields[1] as int,
+      title: fields[0] as String,
+      artist: fields[3] as String,
+      uri: fields[2] as String,
     );
   }
 
@@ -29,13 +29,13 @@ class SongsAdapter extends TypeAdapter<Songs> {
     writer
       ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.songName)
+      ..write(obj.title)
       ..writeByte(1)
-      ..write(obj.songId)
+      ..write(obj.id)
       ..writeByte(2)
-      ..write(obj.songPath)
+      ..write(obj.uri)
       ..writeByte(3)
-      ..write(obj.songArtists);
+      ..write(obj.artist);
   }
 
   @override

@@ -8,8 +8,10 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
 class MusicButtomSheet extends StatelessWidget {
+  final List songs;
   const MusicButtomSheet({
     Key? key,
+    required this.songs,
   }) : super(key: key);
 
   @override
@@ -115,7 +117,7 @@ class MusicButtomSheet extends StatelessWidget {
                       CustomIconAnim(
                         onPressed: () {
                           if (play.isPause) {
-                            play.playSong(play.audioPlayer.currentIndex!,
+                            play.playSong(songs, play.audioPlayer.currentIndex!,
                                 duration: play.audioPlayer.position);
                           } else {
                             play.pauseSong();

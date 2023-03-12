@@ -5,21 +5,21 @@ part 'songs.g.dart';
 @HiveType(typeId: 1)
 class Songs extends HiveObject {
   @HiveField(0)
-  String songName;
+  String title;
 
   @HiveField(1)
-  int songId;
+  int id;
 
   @HiveField(2)
-  String songPath;
+  String uri;
 
   @HiveField(3)
-  String songArtists;
+  String artist;
 
   Songs({
-    required this.songId,
-    required this.songName,
-    required this.songArtists,
-    required this.songPath,
+    required this.id,
+    required this.title,
+    required this.artist,
+    required this.uri,
   });
 }

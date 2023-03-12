@@ -9,7 +9,8 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
 class MusicDetail extends StatelessWidget {
-  const MusicDetail({super.key});
+  final List songs;
+  const MusicDetail({super.key, required this.songs});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,9 @@ class MusicDetail extends StatelessWidget {
                   artworkBorder: BorderRadius.circular(18),
                   artworkHeight: 250,
                   artworkWidth: 300,
+                  artworkQuality: FilterQuality.high,
+                  format: ArtworkFormat.PNG,
+                  quality: 100,
                   nullArtworkWidget: SizedBox(
                     height: 250,
                     width: 300,
@@ -134,7 +138,8 @@ class MusicDetail extends StatelessWidget {
                           icons: AnimatedIcons.pause_play,
                           onPressed: () {
                             if (play.isPause) {
-                              play.playSong(play.audioPlayer.currentIndex!,
+                              play.playSong(
+                                  songs, play.audioPlayer.currentIndex!,
                                   duration: play.audioPlayer.position);
                             } else {
                               play.pauseSong();
