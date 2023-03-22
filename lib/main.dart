@@ -34,7 +34,7 @@ class MusicApp extends StatelessWidget {
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
         debugShowCheckedModeBanner: false,
-        title: 'Music',
+        title: 'Muzic',
         theme: AppTheme.theme,
         navigatorKey: ctx,
         home: const HomeScreens(),
