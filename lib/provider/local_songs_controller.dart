@@ -5,9 +5,10 @@ class LocalSongs extends ChangeNotifier {
   final OnAudioQuery _audioQuery = OnAudioQuery();
   bool _isLoading = false;
 
+  List<SongModel> _filterdSong = [];
   List<SongModel> _allSong = [];
 
-  List<SongModel> get allSongs => _allSong;
+  List<SongModel> get filterdSongs => _filterdSong;
   bool get isLoading => _isLoading;
 
   LocalSongs() {
@@ -31,7 +32,18 @@ class LocalSongs extends ChangeNotifier {
     bool permission = await reguestPermissions();
     if (permission) {
       _allSong = await filteredSongs();
-    } else {}
+      _filterdSong = await filteredSongs();
+    } else {} 
+    notifyListeners();
+  }
+
+  searchSongs(String songName) {
+    _filterdSong.clear();
+    for (var element in _allSong) {
+      if (element.title.contains(songName)) {
+        _filterdSong.add(element);
+      }
+    }
     notifyListeners();
   }
 

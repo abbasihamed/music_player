@@ -16,6 +16,30 @@ class AppTheme {
       iconTheme: const IconThemeData(
         color: Colors.grey,
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        fillColor: Colors.grey[800],
+        filled: true,
+        hintStyle: const TextStyle(
+          fontFamily: 'Gilroy',
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF1F222B),
+          fontSize: 14,
+          // letterSpacing: ,
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.grey[800]!),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.grey[800]!),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.grey[800]!),
+        ),
+      ),
     );
   }
 }

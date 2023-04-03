@@ -14,7 +14,7 @@ class HomeScreens extends HookWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<PlayListController>(context);
-    List allSong = Provider.of<LocalSongs>(context, listen: false).allSongs;
+    List allSong = Provider.of<LocalSongs>(context, listen: false).filterdSongs;
     final isSelcted = useState({'songs': true, 'playlist': false});
     final pageController = usePageController(initialPage: 0);
     return CustomScaffold(
