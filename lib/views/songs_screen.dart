@@ -8,7 +8,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
 class SongsScreen extends StatelessWidget {
-  const SongsScreen({Key? key}) : super(key: key);
+  const SongsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -20,21 +20,24 @@ class PlaySongController extends ChangeNotifier {
 
   playSong(List songs, int index,
       {Duration duration = Duration.zero, bool isShuffle = false}) {
-    setAllSong(songs);
-    _audioPlayer.setAudioSource(
-      ConcatenatingAudioSource(
-        children: songs.map((e) => AudioSource.uri(Uri.parse(e.uri!))).toList(),
-        shuffleOrder: isShuffle ? DefaultShuffleOrder() : null,
-      ),
-      initialIndex: index,
-      initialPosition: duration,
-      preload: true,
-    );
-    _audioPlayer.play();
-    setCurrentSongDetail(_audioPlayer.currentIndex!);
-    setIsPlay(_audioPlayer.playing);
-    setIsPause(false);
-    playerStream();
+    if (songs.isNotEmpty) {
+      setAllSong(songs);
+      _audioPlayer.setAudioSource(
+        ConcatenatingAudioSource(
+          children:
+              songs.map((e) => AudioSource.uri(Uri.parse(e.uri!))).toList(),
+          shuffleOrder: isShuffle ? DefaultShuffleOrder() : null,
+        ),
+        initialIndex: index,
+        initialPosition: duration,
+        preload: true,
+      );
+      _audioPlayer.play();
+      setCurrentSongDetail(_audioPlayer.currentIndex!);
+      setIsPlay(_audioPlayer.playing);
+      setIsPause(false);
+      playerStream();
+    }
   }
 
   setIsPlay(bool value) {
