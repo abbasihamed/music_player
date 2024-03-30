@@ -1,7 +1,6 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:music_player/config/theme/app_colors.dart';
 import 'package:music_player/provider/play_song_controller.dart';
 import 'package:music_player/views/components/anim_icon.dart';
 import 'package:music_player/views/components/music_button.dart';

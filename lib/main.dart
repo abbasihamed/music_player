@@ -30,7 +30,6 @@ class MusicApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PlayListController()),
       ],
       child: MaterialApp(
-        useInheritedMediaQuery: true,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
         debugShowCheckedModeBanner: false,
