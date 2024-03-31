@@ -44,6 +44,7 @@ class SongsScreen extends StatelessWidget {
             child: ListView.builder(
               itemCount: songs.filterdSongs.length,
               shrinkWrap: true,
+              padding: EdgeInsets.only(bottom: play.isPlay ? 60 : 0),
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),

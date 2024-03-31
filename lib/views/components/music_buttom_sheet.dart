@@ -10,9 +10,9 @@ import 'package:provider/provider.dart';
 class MusicButtomSheet extends StatelessWidget {
   final List songs;
   const MusicButtomSheet({
-    Key? key,
+    super.key,
     required this.songs,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
