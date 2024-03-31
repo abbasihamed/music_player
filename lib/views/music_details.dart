@@ -66,7 +66,9 @@ class MusicDetail extends StatelessWidget {
         },
       ),
       bottomSheet: Container(
-        height: sz.size.height * 0.4,
+        height: sz.orientation == Orientation.landscape
+            ? sz.size.width * 0.4
+            : sz.size.height * 0.4,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
@@ -82,12 +84,6 @@ class MusicDetail extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                    trailing: SizedBox(
-                      width: sz.size.width * 0.5,
-                      child: sz.orientation == Orientation.landscape
-                          ? _controllerBtn(play)
-                          : null,
-                    ),
                     title: Text(
                       play.currentDetail.title,
                       style: const TextStyle(
@@ -96,6 +92,7 @@ class MusicDetail extends StatelessWidget {
                         fontWeight: FontWeight.w900,
                         fontSize: 24,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: Text(
                       play.currentDetail.artist ?? 'Unknown',
@@ -106,6 +103,7 @@ class MusicDetail extends StatelessWidget {
                         fontSize: 16,
                         height: 2,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -132,8 +130,7 @@ class MusicDetail extends StatelessWidget {
                         );
                       }),
                   const SizedBox(height: 24),
-                  if (sz.orientation == Orientation.portrait)
-                    _controllerBtn(play),
+                  _controllerBtn(play),
                 ],
               ),
             );
